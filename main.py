@@ -2,7 +2,6 @@
 # Author: Deividas Pelakauskas
 
 class Product:
-
     # All percentage fees added up
     percentage_fees = 0
 
@@ -21,21 +20,37 @@ class Product:
         price_after_fees = self.quantity * self.my_price - self.calculate_fees()
         return price_after_fees - self.quantity * self.supplier_price
 
+
 class Ebay(Product):
 
-    percentage_fees = 0.134
-    money_fees = 0.20
+    def __init__(self, my_price, supplier_price, quantity):
+        super().__init__(my_price, supplier_price, quantity)
+        self.percentage_fees, self.money_fees = self.ebay_fees()
+
+    # Ebay final value fee is capped at £250
+    def ebay_fees(self):
+        # Ebay final value fee is capped at £250
+        if self.my_price * self.quantity > 2500:
+            percentage_fees = 0.034  # 3.4% PayPal
+            money_fees = 250.30  # £250 + 30p fixed PayPal fee
+            return percentage_fees, money_fees
+        else:
+            percentage_fees = 0.134  # eBay 10% and 3.4% PayPal
+            money_fees = 0.30   # 30p fixed PayPal fee
+            return percentage_fees, money_fees
+
 
 class Amazon(Product):
-
-    money_fees = 0.20
 
     def __init__(self, my_price, supplier_price, quantity, category_fee):
         super().__init__(my_price, supplier_price, quantity)
         self.percentage_fees = category_fee
+        self.money_fees = 0.20
 
 
-product = Ebay(15, 12, 1)
+# Testing
+product = Ebay(2501, 2000, 1)
 productAmz = Amazon(15, 12, 1, 0.134)
 print(product.calculate_profit())
 print(productAmz.calculate_profit())
+print(product.money_fees)
