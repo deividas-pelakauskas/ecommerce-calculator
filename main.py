@@ -1,9 +1,19 @@
-# Test by Deividas Pelakauskas
+# Date: 02/2020
+# Author: Deividas Pelakauskas
 
 class Product:
 
-    def __init__(self, sku, product_name, supplier, quantity):
+    def __init__(self, sku, supplier, my_price, supplier_price, quantity):
         self.sku = sku
-        self.product_name = product_name
         self.supplier = supplier
+        self.my_price = my_price
+        self.supplier_price = supplier_price
         self.quantity = quantity
+
+
+class Ebay(Product):
+    pass
+
+class Amazon(Product):
+    pass
+
