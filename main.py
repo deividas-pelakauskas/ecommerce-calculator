@@ -46,24 +46,28 @@ class Amazon(Product):
 
     def __init__(self, my_price, supplier_price, quantity, category_fee):
         super().__init__(my_price, supplier_price, quantity)
-        self.percentage_fees = category_fee  # Category fee depends on the category on Amazon
+        self.percentage_fees = category_fee / 100  # Category fee depends on the category on Amazon
         self.money_fees = 0.20  # Amazon fixed fee of 20p
 
 
-# Testing
-# product = Ebay(2501, 2000, 1)
-# productAmz = Amazon(15, 12, 1, 0.134)
-# print(product.calculate_profit())
-# print(productAmz.calculate_profit())
-# print(product.money_fees)
 
 main_menu = 0
 main_menu = int(input("Pick an option:\n"
                       "1. Calculate eBay profit\n"
                       "2. Calculate Amazon profit\n"))
+# eBay menu
 if main_menu == 1:
     your_price = int(input("Enter your price:\n"))
     supplier_price = int(input("Enter supplier price:\n"))
     quantity = int(input("Enter quantity sold:\n"))
     product = Ebay(your_price, supplier_price, quantity)
-    print("Your profit is - " + str(product.calculate_profit()))
+    print("Your profit is " + str(product.calculate_profit()))
+
+# Amazon menu
+if main_menu == 2:
+    your_price = int(input("Enter your price:\n"))
+    supplier_price = int(input("Enter supplier price:\n"))
+    quantity = int(input("Enter quantity sold:\n"))
+    fee_percentage = int(input("Enter category fee percentage:\n"))
+    product = Amazon(your_price, supplier_price, quantity, fee_percentage)
+    print("Your profit is " + str(product.calculate_profit()))
