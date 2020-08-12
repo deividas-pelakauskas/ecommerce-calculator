@@ -1,6 +1,7 @@
 # Date: 02/2020
 # Author: Deividas Pelakauskas
 
+
 class Product:
     # All percentage fees added up (0 by default)
     percentage_fees = 0
@@ -24,7 +25,6 @@ class Product:
 
 
 class Ebay(Product):
-
     def __init__(self, my_price, supplier_price, quantity):
         super().__init__(my_price, supplier_price, quantity)
         self.percentage_fees, self.money_fees = self.ebay_fees()
@@ -42,7 +42,6 @@ class Ebay(Product):
 
 
 class Amazon(Product):
-
     def __init__(self, my_price, supplier_price, quantity, category_fee):
         super().__init__(my_price, supplier_price, quantity)
         self.percentage_fees = category_fee  # Category fee depends on the category on Amazon
@@ -55,10 +54,12 @@ def main_menu_options():
 
     :return: user inputs (price, supplier price and quantity) as int
     """
+    
     your_price = int(input("Enter your price:\n"))
     supplier_price = int(input("Enter supplier price:\n"))
     quantity = int(input("Enter quantity:\n"))
     return your_price, supplier_price, quantity
+
 
 def amazon_category_fee(category_num, your_price):
     """
@@ -103,30 +104,44 @@ def amazon_category_fee(category_num, your_price):
 
     return amazon_fees[category_num]
 
-def main():
-    main_menu = int(input("Pick an option:\n"
-                          "1. Calculate eBay profit\n"
-                          "2. Calculate Amazon profit\n"))
-    # eBay menu
-    if main_menu == 1:
-        your_price, supplier_price, quantity = main_menu_options()
-        product = Ebay(your_price, supplier_price, quantity)
-        print("Your profit is " + str(product.calculate_profit()))
-        print("Total fees to pay to eBay and PayPal: " + str(product.calculate_fees()))
 
-    # Amazon menu
-    elif main_menu == 2:
-        your_price, supplier_price, quantity = main_menu_options()
-        category_num = int(input("In which category is the product in: \n1. Additive Manufacturing\n"
-                                 "2. Amazon Device Accessories\n3. Baby Products\n4. Beautify\n"
-                                 "5. Beer, Wine & Spirits\n6. Books, Music, VHS, DVD's\n"
-                                 "7. Business, Industrial & Scientific supplies\n8. Car & Motorbike\n"
-                                 "9. Clothing\n10. Computers\n11. Computer Accessories\n"
-                                 "12.Consumer Electronics\n13. DIY & Tools\n14. Education Supplies\n"
-                                 "15. Electronic accessories\n"))
-        product = Amazon(your_price, supplier_price, quantity, amazon_category_fee(category_num, your_price * quantity))
-        print("Your profit is: " + str(product.calculate_profit()))
-        print("Total fees to pay to Amazon: " + str(product.calculate_fees()))
+def main():
+    menu_status = True  # For menu termination
+    while menu_status:
+        option = input("Pick an option:\n"
+                       "1. Calculate eBay profit\n"
+                       "2. Calculate Amazon profit\n"
+                       "0. Exit calculator\n")
+
+        # eBay menu
+        if option == "1":
+            your_price, supplier_price, quantity = main_menu_options()
+            product = Ebay(your_price, supplier_price, quantity)
+            print("Your profit is " + str(product.calculate_profit()))
+            print("Total fees to pay to eBay and PayPal: " + str(product.calculate_fees()))
+
+        # Amazon menu
+        elif option == "2":
+            your_price, supplier_price, quantity = main_menu_options()
+            category_num = int(input("In which category is the product in: \n1. Additive Manufacturing\n"
+                                     "2. Amazon Device Accessories\n3. Baby Products\n4. Beautify\n"
+                                     "5. Beer, Wine & Spirits\n6. Books, Music, VHS, DVD's\n"
+                                     "7. Business, Industrial & Scientific supplies\n8. Car & Motorbike\n"
+                                     "9. Clothing\n10. Computers\n11. Computer Accessories\n"
+                                     "12.Consumer Electronics\n13. DIY & Tools\n14. Education Supplies\n"
+                                     "15. Electronic accessories\n"))
+            product = Amazon(your_price, supplier_price, quantity,
+                             amazon_category_fee(category_num, your_price * quantity))
+            print("Your profit is: " + str(product.calculate_profit()))
+            print("Total fees to pay to Amazon: " + str(product.calculate_fees()))
+
+        # Terminate menu
+        elif option == "0":
+            print("Thank you for using e-commerce calculator.")
+            menu_status = False
+
+        else:
+            print("Unrecognised option, please try again.")
 
 
 main()
