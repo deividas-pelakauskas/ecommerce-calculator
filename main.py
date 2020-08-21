@@ -54,10 +54,14 @@ def main_menu_options():
 
     :return: user inputs (price, supplier price and quantity) as int
     """
-    
-    your_price = int(input("Enter your price:\n"))
-    supplier_price = int(input("Enter supplier price:\n"))
-    quantity = int(input("Enter quantity:\n"))
+
+    try:
+        your_price = int(input("Enter your price:\n"))
+        supplier_price = int(input("Enter supplier price:\n"))
+        quantity = int(input("Enter quantity:\n"))
+    except ValueError:
+        print("Invalid input")
+
     return your_price, supplier_price, quantity
 
 
@@ -84,6 +88,7 @@ def amazon_category_fee(category_num, your_price):
 
     Source: https://sellercentral.amazon.co.uk/gp/help/external/H78LW99F4XF3Z38
 
+    :param your_price: int of price
     :param category_num: int for selection of category
     :return: category percentage fee
     """
@@ -123,17 +128,24 @@ def main():
         # Amazon menu
         elif option == "2":
             your_price, supplier_price, quantity = main_menu_options()
-            category_num = int(input("In which category is the product in: \n1. Additive Manufacturing\n"
-                                     "2. Amazon Device Accessories\n3. Baby Products\n4. Beautify\n"
-                                     "5. Beer, Wine & Spirits\n6. Books, Music, VHS, DVD's\n"
-                                     "7. Business, Industrial & Scientific supplies\n8. Car & Motorbike\n"
-                                     "9. Clothing\n10. Computers\n11. Computer Accessories\n"
-                                     "12.Consumer Electronics\n13. DIY & Tools\n14. Education Supplies\n"
-                                     "15. Electronic accessories\n"))
+            category_num = 0
+            while 1 > category_num or 15 < category_num:
+                try:  # try-except block because Integer is need for function to work
+                    category_num = int(input("In which category is the product in (1-15): \n1. Additive Manufacturing\n"
+                                             "2. Amazon Device Accessories\n3. Baby Products\n4. Beautify\n"
+                                             "5. Beer, Wine & Spirits\n6. Books, Music, VHS, DVD's\n"
+                                             "7. Business, Industrial & Scientific supplies\n8. Car & Motorbike\n"
+                                             "9. Clothing\n10. Computers\n11. Computer Accessories\n"
+                                             "12.Consumer Electronics\n13. DIY & Tools\n14. Education Supplies\n"
+                                             "15. Electronic accessories\n"))
+                except ValueError:
+                    print("Invalid input")
             product = Amazon(your_price, supplier_price, quantity,
                              amazon_category_fee(category_num, your_price * quantity))
+            print("----------")
             print("Your profit is: " + str(product.calculate_profit()))
             print("Total fees to pay to Amazon: " + str(product.calculate_fees()))
+            print("----------")
 
         # Terminate menu
         elif option == "0":
