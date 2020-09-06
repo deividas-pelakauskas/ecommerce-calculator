@@ -110,6 +110,19 @@ def amazon_category_fee(category_num, your_price):
     return amazon_fees[category_num]
 
 
+def calculate_fees_profit(product):
+    """
+    Function to calculate profits from products and fees to pay to marketplace
+
+    :param product: product object to calculate profit and fees
+    :return:
+    """
+    print("----------")
+    print("Your profit: " + str(round(product.calculate_profit(), 2)))
+    print("Total fees to pay to marketplace: " + str(round(product.calculate_fees(), 2)))
+    print("----------")
+
+
 def main():
     menu_status = True  # For menu termination
     while menu_status:
@@ -122,11 +135,7 @@ def main():
         if option == "1":
             your_price, supplier_price, quantity = main_menu_options()
             product = Ebay(your_price, supplier_price, quantity)
-
-            print("----------")
-            print("Your profit is " + str(product.calculate_profit()))
-            print("Total fees to pay to eBay and PayPal: " + str(product.calculate_fees()))
-            print("----------")
+            calculate_fees_profit(product)
 
         # Amazon menu
         elif option == "2":
@@ -145,10 +154,7 @@ def main():
                     print("Invalid input")
             product = Amazon(your_price, supplier_price, quantity,
                              amazon_category_fee(category_num, your_price * quantity))
-            print("----------")
-            print("Your profit is: " + str(product.calculate_profit()))
-            print("Total fees to pay to Amazon: " + str(product.calculate_fees()))
-            print("----------")
+            calculate_fees_profit(product)
 
         # Terminate menu
         elif option == "0":
