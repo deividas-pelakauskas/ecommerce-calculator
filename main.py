@@ -50,7 +50,7 @@ class Amazon(Product):
 
 def main_menu_options():
     """
-    Method to return user inputs (there are the main asked inputs for both calculations (eBay and amazon)
+    Function to return user inputs (there are the main asked inputs for both calculations (eBay and amazon)
 
     :return: user inputs (price, supplier price and quantity) as int
     """
@@ -122,6 +122,7 @@ def main():
         if option == "1":
             your_price, supplier_price, quantity = main_menu_options()
             product = Ebay(your_price, supplier_price, quantity)
+
             print("----------")
             print("Your profit is " + str(product.calculate_profit()))
             print("Total fees to pay to eBay and PayPal: " + str(product.calculate_fees()))
