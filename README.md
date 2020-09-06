@@ -1,2 +1,2 @@
 # E-commerce calculator
-This program can be used to calculate profit when selling on eBay or Amazon
+A command line e-commerce calculator used to calculate profits and fees when selling on eBay and Amazon marketplace platforms
